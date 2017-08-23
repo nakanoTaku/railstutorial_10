@@ -16,10 +16,12 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                               password_confirmation: "bar" } }
 
     assert_template 'users/edit'
+    assert_select "div", "The form contains 4 errors."
   end
 
   test "successful edit with friendly forwarding" do
     get edit_user_path(@user)
+    assert session[:forwarding_url]
     log_in_as(@user)
     assert_redirected_to edit_user_url(@user)
     name  = "Foo Bar"
